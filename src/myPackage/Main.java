@@ -188,7 +188,7 @@ public class Main {
 		System.out.printf("\nNew Player '%s' has been added...\n",name);
 	}
 	
-	public final void showList(ArrayList<Player> player_list) {
+	public final void showList() {
 		// Fungsi untuk menampilkan isi ArrayList.
 		// Jika ArrayList kosong, masuk blok "if". Selain itu, masuk blok "else".
 		if(player_list.isEmpty()) System.out.println("\nCurrently No Players Registered Here...");
@@ -472,7 +472,7 @@ public class Main {
 		if(!player_list.isEmpty()) {
 			// Pengguna memilih data pemain yang mana yang ingin diubah.
 			String choice;
-			showList(player_list);
+			showList();
 			System.out.print("\nChoose Which Player's Information to be updated [by ID]: "); 
 			choice = scan.nextLine(); choice.strip();
 			
@@ -498,7 +498,7 @@ public class Main {
 		if(!player_list.isEmpty()) {
 			// Pengguna memilih pemain mana yang ingin dihapus dari list berdasarkan urutan pemain dimasukkan.
 			String choice;
-			showList(player_list);
+			showList();
 			System.out.print("\nChoose Which Player's Information to be deleted [by ID]: "); 
 			choice = scan.nextLine(); choice.strip();
 			
@@ -550,7 +550,7 @@ public class Main {
 				addPlayer(); pressEnterToContinue(); break;
 			}
 			case 2: {
-				showList(player_list); pressEnterToContinue(); break;
+				showList(); pressEnterToContinue(); break;
 			}
 			case 3: {
 				updatePlayer(); pressEnterToContinue(); break;
