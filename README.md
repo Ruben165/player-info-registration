@@ -1,4 +1,6 @@
 # oop_lec_sesi9
+Nama: Lie Reubensto
+NIM: 2540124633
 Tugas GSLC OOP LEC LA05 Sesi 9
 
 Program ini berfungsi untuk memasukkan data-data pemain sepak bola (tidak harus pemain resmi).
