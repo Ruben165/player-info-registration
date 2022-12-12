@@ -1,7 +1,7 @@
 package myPackage;
 
 public class Center extends Player {
-	// Atribut tambahan yang dimiliki seorang pemain "Midfielder".
+    // Atribut tambahan yang dimiliki seorang pemain "Midfielder".
     private int pass_accuracy;
    
     // Constructor kosong
@@ -10,8 +10,8 @@ public class Center extends Player {
     }
 
     // Constructor berisi
-    public Center(String name, String nationality, String club, String position, int age, int jerseyNumber, int pass_accuracy) {
-	    super(name, nationality, club, position, age, jerseyNumber);
+    public Center(String name, String nationality, String club, String position, String player_id, int age, int jerseyNumber, int pass_accuracy) {
+	    super(name, nationality, club, position, player_id, age, jerseyNumber);
 	    this.pass_accuracy = pass_accuracy;
     }
    

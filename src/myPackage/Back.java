@@ -1,7 +1,7 @@
 package myPackage;
 
 public class Back extends Player {
-	// Atribut tambahan yang dimiliki seorang pemain "Back".
+    // Atribut tambahan yang dimiliki seorang pemain "Back".
     private int defend_capability;
     
     // Constructor kosong
@@ -10,8 +10,8 @@ public class Back extends Player {
     }
 
     // Constructor berisi
-	public Back(String name, String nationality, String club, String position, int age, int jerseyNumber, int defend_capability) {
-		super(name, nationality, club, position, age, jerseyNumber);
+	public Back(String name, String nationality, String club, String position, String player_id, int age, int jerseyNumber, int defend_capability) {
+		super(name, nationality, club, position, player_id, age, jerseyNumber);
 		this.defend_capability = defend_capability;
 	}
 	

@@ -1,7 +1,7 @@
 package myPackage;
 
 public class Keeper extends Player implements isHandOkay {
-	// Atribut tambahan yang dimiliki seorang pemain "Keeper"
+    // Atribut tambahan yang dimiliki seorang pemain "Keeper"
     private int arm_strength;
     
     // Constructor kosong
@@ -10,8 +10,8 @@ public class Keeper extends Player implements isHandOkay {
     }
 
     // Constructor berisi
-	public Keeper(String name, String nationality, String club, String position, int age, int jerseyNumber) {
-		super(name, nationality, club, position, age, jerseyNumber);
+	public Keeper(String name, String nationality, String club, String position, String player_id, int age, int jerseyNumber) {
+		super(name, nationality, club, position, player_id, age, jerseyNumber);
 	}
 	
 	// Metode Abstrak dari super-class (Pemain "Keeper" memiliki kriterianya tersendiri dalam menentukan stamina).

@@ -1,7 +1,7 @@
 package myPackage;
 
 public class Forward extends Player {
-	// Atribut tambahan yang dimiliki seorang pemain "Forward".
+    // Atribut tambahan yang dimiliki seorang pemain "Forward".
     private int kick_power;
    
     // Constructor kosong
@@ -10,8 +10,8 @@ public class Forward extends Player {
     }
 
     // Constructor berisi
-    public Forward(String name, String nationality, String club, String position, int age, int jerseyNumber, int kick_power) {
-	    super(name, nationality, club, position, age, jerseyNumber);
+    public Forward(String name, String nationality, String club, String position, String player_id, int age, int jerseyNumber, int kick_power) {
+	    super(name, nationality, club, position, player_id, age, jerseyNumber);
 	    this.kick_power = kick_power;
     }
    

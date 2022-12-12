@@ -1,8 +1,8 @@
 package myPackage;
 
 public abstract class Player {
-	// Atribut-atribut yang dimiliki seorang pemain.
-    private String name, nationality, club, position;
+    // Atribut-atribut yang dimiliki seorang pemain.
+    private String name, nationality, club, position, player_id;
     private int age, jerseyNumber, stamina;
    
     // Metode 'Abstrak' yang harus dimiliki semua sub-class dari kelas ini. 
@@ -12,13 +12,14 @@ public abstract class Player {
     public Player() {}
    
     // Constructor berisi
-    public Player(String name, String nationality, String club, String position, int age, int jerseyNumber) {
+    public Player(String name, String nationality, String club, String position, String player_id, int age, int jerseyNumber) {
 	    this.name = name;
 	    this.nationality = nationality;
 	    this.club = club;
 	    this.position = position;
 	    this.age = age;
 	    this.jerseyNumber = jerseyNumber;
+	    this.player_id = player_id;
     }
 
     // Setter AND Getter
@@ -65,4 +66,8 @@ public abstract class Player {
     public void setStamina(int stamina) {
 	    this.stamina = stamina;
     }
+
+	public String getPlayer_id() {
+		return player_id;
+	}
 }

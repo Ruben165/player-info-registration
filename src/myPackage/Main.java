@@ -10,6 +10,7 @@ package myPackage;
 // Library yang dibutuhkan:
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
 
 // Ada atribut pemain yang bernama "stamina" yang dihasilkan secara acak berdasarkan umur.
 // Rentang umur dan posisi yang berbeda memiliki batasan stamina (yang angkanya saya pilih secara acak) yang berbeda-beda.
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 public class Main {
 	Scanner scan = new Scanner(System.in); // Membuat objek dari Scanner untuk membantu mendapat input dari pengguna.
+	Random rand = new Random(); // Randomizer untuk menghasilkan ID unik.
 	ArrayList<Player> player_list = new ArrayList<>(); // ArrayList yang akan menjadi tempat menampung data-data pemain.
 
 	public final void start_menu() {
@@ -47,9 +49,42 @@ public class Main {
 		System.out.println("\nPress Enter To Continue..."); scan.nextLine();
 	}
 	
+	public final String genID(String pos) {
+		// Fungsi untuk menghasilkan ID yang terdiri dari 5 karakter
+		String player_id;
+		
+		// 2 karakter awal disesuaikan dengan posisi pemain
+		if(pos.equalsIgnoreCase("Forward")) player_id = "FW";
+		else if(pos.equalsIgnoreCase("Center")) player_id = "CT";
+		else if(pos.equalsIgnoreCase("Back")) player_id = "BK";
+		else player_id = "KP";
+		
+		// 3 karakter akhir terdiri dari angka 0 sampai 9 secara acak
+		for(int i=0;i<3;i++) {
+			int temp = rand.nextInt(10);
+			player_id += temp;
+		}
+		return player_id;
+	}
+	
+	public final boolean checkID(String player_id) {
+		// Fungsi untuk mengecek apakah ID yang dihasilkan sudah digunakan pemain lain atau belum.
+		// Jika ArrayList kosong, sudah pasti ID yang dihailkan unik
+		if(player_list.isEmpty()) return true;
+		else {
+			// Jika ArrayList tidak kosong, ID yang dihasilkan harus dicek dengan pemain lain
+			Player curr;
+			for(int i=0;i<player_list.size();i++) {
+				curr = player_list.get(i);
+				if(player_id.equals(curr.getPlayer_id())) return false;
+			}
+			return true;
+		}
+	}
+	
 	public final void addPlayer() {
 		// Fungsi untuk menambah pemain.
-		String name, nationality, club, position, tempAge, tempJerseyNumber;
+		String name, nationality, club, position, player_id, tempAge, tempJerseyNumber;
 		
 		// Catatan Khusus.
 		System.out.println("\nNote: Please Input Name, Nationality AND Position Correctly, as these attributes"
@@ -82,7 +117,7 @@ public class Main {
 		// Klub harus terdiri dari huruf alfabet (spasi menjdi pilihan) dan 
 		// jika pemain tidak sedang berada di klub mana pun, atribut "club" mereka dimasukkan "FREE".
 		do {
-			System.out.print("Input Club [Letters Only (Type 'FREE' if the player is not in a club]: "); club = scan.nextLine(); club.strip();
+			System.out.print("Input Club [Letters Only (Type FREE if the player is not in a club]: "); club = scan.nextLine(); club.strip();
 		} while(!club.matches("[a-zA-Z\u0020]+"));
 		
 		// Umumnya, posisi pemain sepak bola ada empat: Forward(pemain lini depan), 
@@ -91,6 +126,12 @@ public class Main {
 			System.out.print("Input Position [Forward OR Center OR Back OR Keeper (case insensitive)]: "); position = scan.nextLine(); position.strip();
 		} while(!position.equalsIgnoreCase("Forward") && !position.equalsIgnoreCase("Center") && !position.equalsIgnoreCase("Back") && !position.equalsIgnoreCase("Keeper"));
 		
+		// Menghasilkan ID secara random dan unik
+		do {
+			player_id = genID(position);
+		} while(!checkID(player_id));
+		
+		// Masuk ke blok yang berbeda sesuai dengan posisi
 		if(position.equalsIgnoreCase("Forward")) {
 			// Jika posisi pemain baru adalah "Forward", pengguna diminta untuk memasukkan data "kick_power".
 			// "kick_power" harus numerik diskrit dan bernilai di antara 50 sampai 100 (inklusif).
@@ -102,7 +143,7 @@ public class Main {
 			kick_power = Integer.parseInt(tempKick_power);
 			
 			// Membuat Objek "Forward" baru dan memasukkannya ke dalam ArrayList.
-			Player newForward = new Forward(name,nationality,club,position,age,jerseyNumber,kick_power);
+			Player newForward = new Forward(name,nationality,club,position,player_id,age,jerseyNumber,kick_power);
 			newForward.genStamina(); // Menghasilkan stamina berdasarkan umur.
 			player_list.add(newForward);
 		} 
@@ -117,7 +158,7 @@ public class Main {
 			pass_accuracy = Integer.parseInt(tempPass_acc);
 			
 			// Membuat Objek "Center" baru dan memasukkannya ke dalam ArrayList.
-			Player newCenter = new Center(name,nationality,club,position,age,jerseyNumber,pass_accuracy);
+			Player newCenter = new Center(name,nationality,club,position,player_id,age,jerseyNumber,pass_accuracy);
 			newCenter.genStamina(); // Menghasilkan stamina berdasarkan umur.
 			player_list.add(newCenter);
 		} 
@@ -132,14 +173,14 @@ public class Main {
 			defend_capability = Integer.parseInt(tempDefend_cap);
 			
 			// Membuat Objek "Back" baru dan memasukkannya ke dalam ArrayList.
-			Player newBack = new Back(name,nationality,club,position,age,jerseyNumber,defend_capability);
+			Player newBack = new Back(name,nationality,club,position,player_id,age,jerseyNumber,defend_capability);
 			newBack.genStamina(); // Menghasilkan stamina berdasarkan umur.
 			player_list.add(newBack);
 		}
 		else if(position.equalsIgnoreCase("Keeper")) {
 			// Jika posisi pemain baru adalah "Keeper", atribut spesialnya akan dihasilkan secara acak (tidak seperti posisi-posisi lain).
 			// Membuat Objek "Keeper" baru dan memasukkannya ke dalam ArrayList.
-			Player newKeeper = new Keeper(name,nationality,club,position,age,jerseyNumber);
+			Player newKeeper = new Keeper(name,nationality,club,position,player_id,age,jerseyNumber);
 			newKeeper.genStamina(); ((Keeper) newKeeper).genArmStrength(); // Menghasilkan stamina dan "arm_strength" berdasarkan umur.
 			player_list.add(newKeeper);
 		}
@@ -152,13 +193,13 @@ public class Main {
 		// Jika ArrayList kosong, masuk blok "if". Selain itu, masuk blok "else".
 		if(player_list.isEmpty()) System.out.println("\nCurrently No Players Registered Here...");
 		else {
-			System.out.printf("\n| %-3s | %-40s | %-20s | %-3s | %-13s | %-20s | %-8s | %-7s | %-25s |\n","No.",
-					"Name","Nationality","Age","Jersey Number","Club","Position","Stamina","Special");
+			System.out.printf("\n| %-3s | %-5s | %-40s | %-20s | %-3s | %-13s | %-20s | %-8s | %-7s | %-25s |\n","No.",
+					"ID","Name","Nationality","Age","Jersey Number","Club","Position","Stamina","Special");
 			for(int i=0;i<player_list.size();i++) {
 				Player curr = player_list.get(i);
-				System.out.printf("| %-3d | %-40s | %-20s | %-3d | %-13d | %-20s | %-8s | %-7d | ",i+1,curr.getName(),
-						curr.getNationality(),curr.getAge(),curr.getJerseyNumber(),curr.getClub(),curr.getPosition(),
-						curr.getStamina());
+				System.out.printf("| %-3s | %-5s | %-40s | %-20s | %-3d | %-13d | %-20s | %-8s | %-7d | ",i+1,curr.getPlayer_id(),
+						curr.getName(),curr.getNationality(),curr.getAge(),curr.getJerseyNumber(),curr.getClub(),
+						curr.getPosition(),curr.getStamina());
 				if(curr instanceof Forward) {
 					System.out.printf("%-10s: %-3d           |\n","Kick Power",((Forward) curr).getKick_power());
 				}
@@ -180,6 +221,7 @@ public class Main {
 		// Menampilkan pilihan atribut pemain yang bisa diubah.
 		System.out.println("\nNote: As mentioned earlier, the attributes Name, Nationality AND Position CANNOT BE CHANGED!");
 		System.out.println("Another Note: You may add a new player and remove the current one if you wish to change these attributes!");
+		System.out.println("Another Note: ID CANNOT BE CHANGED!!!");
 		System.out.println("\nWhich Information you want to update?:");
 		System.out.println("1. Age");
 		System.out.println("2. Jersey Number");
@@ -267,7 +309,7 @@ public class Main {
 			String club;
 			System.out.printf("\nCurrent Club: %s\n",curr.getClub());
 			do {
-				System.out.printf("New Club [Different From Current Club AND 'FREE' if the player leaves a club and currently not in a club]: "); club = scan.nextLine(); club.strip();
+				System.out.printf("New Club [Different From Current Club AND Type FREE if the player leaves a club and currently not in a club]: "); club = scan.nextLine(); club.strip();
 			} while(!club.matches("[a-zA-Z\u0020]+") || club.equalsIgnoreCase(curr.getClub()));
 			
 			// Mengonfirmasi keputusan pengguna.
@@ -429,19 +471,22 @@ public class Main {
 		// Jika ArrayList tidak kosong, masuk ke blok "if".
 		if(!player_list.isEmpty()) {
 			// Pengguna memilih data pemain yang mana yang ingin diubah.
-			String choice1;
-			do {
-				showList(player_list);
-				System.out.printf("\nChoose Which Player's Information to be updated [1-%d]: ",player_list.size()); 
-				choice1 = scan.nextLine(); choice1.strip();
-			} while(!choice1.matches("[0-9]+") || Integer.parseInt(choice1)<1 || Integer.parseInt(choice1)>player_list.size());
+			String choice;
+			showList(player_list);
+			System.out.print("\nChoose Which Player's Information to be updated [by ID]: "); 
+			choice = scan.nextLine(); choice.strip();
 			
-			int choice = Integer.parseInt(choice1)-1;
+			Player curr;
 			
-			// Masuk ke fungsi utama untuk mengubah data pemain.
-			aboutUpdate(player_list.get(choice));
-			
-			return;
+			// Masuk ke fungsi utama untuk mengubah data pemain (Jika ID ditemukan).
+			for(int i=0;i<player_list.size();i++) {
+				curr = player_list.get(i);
+				if(curr.getPlayer_id().equals(choice)) {
+					aboutUpdate(curr); return;
+				}
+			}
+			// Jika ID tidak ditemukan
+			System.out.println("\nID Not Found..."); return;
 		}
 		// Jika ArrayList kosong, program menceta pesan berikut ini dan return.
 		System.out.println("\nThere is currently no players in the list..."); return;
@@ -452,37 +497,42 @@ public class Main {
 		// Jika ArrayList tidak kosong, masuk ke blok "if".
 		if(!player_list.isEmpty()) {
 			// Pengguna memilih pemain mana yang ingin dihapus dari list berdasarkan urutan pemain dimasukkan.
-			String choice1;
-			do {
-				showList(player_list);
-				System.out.printf("\nChoose Which Player's Information to be deleted [1-%d]: ",player_list.size()); 
-				choice1 = scan.nextLine(); choice1.strip();
-			} while(!choice1.matches("[0-9]+") || Integer.parseInt(choice1)<1 || Integer.parseInt(choice1)>player_list.size());
+			String choice;
+			showList(player_list);
+			System.out.print("\nChoose Which Player's Information to be deleted [by ID]: "); 
+			choice = scan.nextLine(); choice.strip();
 			
-			// "choice" disini disesuaikan dengan cara dikurang satu.
-			// Hal ini dikarenakan index ArrayList mulai dari 0.
-			int choice = Integer.parseInt(choice1)-1;
+			Player curr;
 			
-			// Meyakinkan Pengguna untuk menghapus data pemain atau tidak.
-			String confirm;
-			
-			do {
-				System.out.print("\nAre you sure you want to delete this player's information? [yes OR no (case insensitive)]: ");
-				confirm = scan.nextLine(); confirm.strip();
-			} while(!confirm.equalsIgnoreCase("yes") && !confirm.equalsIgnoreCase("no"));
-			
-			String name = player_list.get(choice).getName();
-			
-			if(confirm.equalsIgnoreCase("yes")) {
-				// Jika Pengguna benar-benar yakin ingin menghapus data pemain yang telah dipilih.
-				System.out.println("\nDeleting..."); player_list.remove(choice);
-				System.out.printf("\nThe Player '%s' has been removed from the list...\n",name);
+			// Program mencoba mencari ID di ArrayList
+			for(int i=0;i<player_list.size();i++) {
+				curr = player_list.get(i);
+				// Masuk ke blok "if" jika ID ditemukan
+				if(curr.getPlayer_id().equals(choice)) {
+					// Meyakinkan Pengguna untuk menghapus data pemain atau tidak.
+					String confirm;
+					
+					do {
+						System.out.print("\nAre you sure you want to delete this player's information? [yes OR no (case insensitive)]: ");
+						confirm = scan.nextLine(); confirm.strip();
+					} while(!confirm.equalsIgnoreCase("yes") && !confirm.equalsIgnoreCase("no"));
+					
+					String name = player_list.get(i).getName();
+					
+					if(confirm.equalsIgnoreCase("yes")) {
+						// Jika Pengguna benar-benar yakin ingin menghapus data pemain yang telah dipilih.
+						System.out.println("\nDeleting..."); player_list.remove(i);
+						System.out.printf("\nThe Player '%s' has been removed from the list...\n",name);
+					}
+					else if(confirm.equalsIgnoreCase("no")) {
+						// Jika pengguna tidak ingin menghapus data pemain.
+						System.out.println("\nCancelling...");
+					}
+					return;
+				}
 			}
-			else if(confirm.equalsIgnoreCase("no")) {
-				// Jika pengguna tidak ingin menghapus data pemain.
-				System.out.println("\nCancelling...");
-			}
-			return;
+			// Jika ID tidak ditemukan
+			System.out.println("\nID Not Found..."); return;
 		}
 		// Jika ArrayList kosong, langsung mencetak pesan berikut ini dan return. 
 		System.out.println("\nThere is currently no players in the list..."); return;
