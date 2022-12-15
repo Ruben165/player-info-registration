@@ -69,7 +69,7 @@ public class Main {
 	
 	public final boolean checkID(String player_id) {
 		// Fungsi untuk mengecek apakah ID yang dihasilkan sudah digunakan pemain lain atau belum.
-		// Jika ArrayList kosong, sudah pasti ID yang dihailkan unik
+		// Jika ArrayList kosong, sudah pasti ID yang dihasilkan unik
 		if(player_list.isEmpty()) return true;
 		else {
 			// Jika ArrayList tidak kosong, ID yang dihasilkan harus dicek dengan pemain lain
