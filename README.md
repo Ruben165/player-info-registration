@@ -1,14 +1,5 @@
-# oop_lec_sesi9
-Nama: Lie Reubensto
+A little project I did when I was learning about Object-Oriented Programming Concepts
 
-NIM: 2540124633
+This program functions to enter data on soccer players (not necessarily official players). This data will be stored in an ArrayList. Apart from entering data, this program can display data in the ArrayList, change data from the player, and delete the player's data from the ArrayList.
 
-Tugas GSLC OOP LEC LA05 Sesi 9
-
-Program ini berfungsi untuk memasukkan data-data pemain sepak bola (tidak harus pemain resmi).
-
-Data-data tersebut akan disimpan dalam suatu ArrayList.
-
-Selain memasukkan data-data, program ini bisa memunculkan data-data yang ada di ArrayList, mengubah suatu data dari pemain, dan menghapus data pemain tersebut dari ArrayList.
-
-Program terdiri dari 6 kelas (1 kelas 'Main', 1 kelas 'Super' = Player, dan 4 kelas 'Sub' = Forward, Center, Back, dan Keeper) dan 1 interface = isHandOkay.
+The program consists of 6 classes (1 'Main' class, 1 'Super' class = Player, and 4 'Sub' classes = Forward, Center, Back, and Keeper) and 1 interface = isHandOkay.
